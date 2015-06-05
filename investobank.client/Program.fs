@@ -1,10 +1,12 @@
-﻿open System;
+﻿
+open System;
 open System.Collections.Generic
-
+open Nessos.UnionArgParser
 open InvestoBank.Execution.Broker
-open InvestoBank.Execution.Domain;;
-open InvestoBank.Execution.Abstractions;;
-open InvestoBank.Execution.TradingPlatform;;
+open InvestoBank.Execution.Domain
+open InvestoBank.Execution.Abstractions
+open InvestoBank.Execution.TradingPlatform
+open InvestoBank.Execution.Service.CmdLine
 
 let order = { OpenOrderData.ClientId = ClientId "NH04058"; 
     OpenOrderData.OrderType = BUY; 
@@ -24,6 +26,10 @@ let service = new InvestoBank.Execution.TradingPlatform.TradingService(dict) :> 
 
 [<EntryPoint>]
 let main argv = 
+    let parser = UnionArgParser.Create<CLIArguments>()
+
+//    printfn parser.Usage()
+
     let confirmation = service.ReceivedClientOrder("clientA", 100us, BUY)
     printfn "%A" confirmation
     0 // return an integer exit code

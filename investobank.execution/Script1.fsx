@@ -15,7 +15,7 @@ open InvestoBank.Execution.TradingPlatform;;
 
 let order = { OpenOrderData.ClientId = ClientId "NH04058"; 
     OpenOrderData.OrderType = BUY; 
-    OpenOrderData.Qty =50us; 
+    OpenOrderData.Qty =10us; 
     OpenOrderData.WhenReceived = DateTime.UtcNow
     }
 

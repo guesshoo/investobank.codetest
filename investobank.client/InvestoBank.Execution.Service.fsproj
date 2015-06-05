@@ -29,22 +29,29 @@
     <PlatformTarget>
     </PlatformTarget>
   </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\..\Microsoft SDKs\F#\3.1\Framework\v4.0\Microsoft.FSharp.Targets" />
+  <ItemGroup>
+    <Compile Include="AssemblyInfo.fs" />
+    <Compile Include="CLIArguments.fs" />
+    <Compile Include="Program.fs" />
+    <None Include="Script1.fsx" />
+    <None Include="packages.config" />
+    <None Include="app.config" />
+  </ItemGroup>
   <ItemGroup>
     <Reference Include="mscorlib" />
     <Reference Include="FSharp.Core" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Numerics" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="AssemblyInfo.fs" />
-    <Compile Include="Program.fs" />
-  </ItemGroup>
-  <Import Project="$(MSBuildExtensionsPath32)\..\Microsoft SDKs\F#\3.1\Framework\v4.0\Microsoft.FSharp.Targets" />
-  <ItemGroup>
-    <ProjectReference Include="..\InvestoBank.Execution.fsproj">
-      <Project>{3E5B13D1-B2BD-4714-8201-ED5BDADCF26C}</Project>
+    <Reference Include="UnionArgParser">
+      <HintPath>..\packages\UnionArgParser.0.8.7\lib\net40\UnionArgParser.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <ProjectReference Include="..\investobank.execution\InvestoBank.Execution.fsproj">
       <Name>InvestoBank.Execution</Name>
+      <Project>{3e5b13d1-b2bd-4714-8201-ed5bdadcf26c}</Project>
+      <Private>True</Private>
     </ProjectReference>
   </ItemGroup>
 </Project>
