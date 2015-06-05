@@ -10,12 +10,6 @@ module Broker =
     let inline (|MULTIPLE10|NON10|) qty =
         if (qty%10us = 0us) then MULTIPLE10 else NON10
 
-//    let (|ValidateQty|_|) qty =
-//        match qty with
-//        | NON10 -> Some (sprintf "Multiples of 10 allowed. Quantity specified: %O" qty)
-//        | (qty >= 100us) -> Some (sprintf "Maximum Quantity allowed is 100. You've submitted %O" qty)
-//        | _ -> None
-
     let contains x =  Seq.exists((=)x)
     let createQuote (openOrder:OpenOrderData, brokerId:string, quote:float) ={ 
         BrokerOrderQuote.Id = BrokerId brokerId; 

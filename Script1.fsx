@@ -24,8 +24,11 @@ let broker2 = new Broker2() :> InvestoBank.Execution.Abstractions.IBrokerFacade
 
 let dict = new Dictionary<string, IBrokerFacade>(StringComparer.InvariantCultureIgnoreCase)
 [ "BROKER1", broker1; "BROKER2", broker2] |> Seq.iter( fun item -> dict.Add item)
+dict.["Broker1"]
+
 
 let service = new InvestoBank.Execution.TradingPlatform.TradingService(dict) :> ITradeService
 
 let confirmation = service.ReceivedClientOrder("clientA", 100us, BUY)
 printfn "%A" confirmation
+

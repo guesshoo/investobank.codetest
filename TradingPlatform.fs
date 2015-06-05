@@ -13,13 +13,13 @@ module TradingPlatform =
 
 
     type TradingService (brokers: IDictionary<string,IBrokerFacade>) =
+        let orders = new List<ClientOrder>();
         let GetQuoteFromBrokers (order:ClientOrder) : Result<seq<BrokerOrderQuote>, string> = 
             match order with
             | ExecutedOrder (openOrder, executions) -> sprintf "Cannot quote on executed order %O" openOrder |> Failure
             | QuotedOrder quoted -> get_quotes brokers.Values quoted.Order |> Success
             | OpenOrder openOrder -> get_quotes brokers.Values openOrder  |> Success
 
-           
 
         interface ITradeService with
             member x.ReceivedClientOrder(clientId:string, qty:uint16, orderType:OrderType) = 
@@ -31,9 +31,14 @@ module TradingPlatform =
                       let cheapest_quote = good_quotes |> Seq.minBy(fun x -> x.Quote)
                       let (BrokerId id) = cheapest_quote.Id
                       let broker_executed_order = brokers.[id].ExecuteQuote(cheapest_quote)
-                      (openOrderData , { ExecutedOrderData.Execution = [broker_executed_order]})
-                      |> ExecutedOrder
-                      |> Success
+                      let executedOrder = (openOrderData , { ExecutedOrderData.Execution = [broker_executed_order]}) |> ExecutedOrder
+                      orders.Add(executedOrder)
+                      Success executedOrder
+
+        member x.ReceivedClientOrder = (x :> ITradeService).ReceivedClientOrder
+
+        
+
 
 
                       
