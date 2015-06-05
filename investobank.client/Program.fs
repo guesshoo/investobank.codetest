@@ -1,11 +1,4 @@
-﻿#load "Common.fs"
-#load "Domain.fs"
-open InvestoBank.Execution.Common
-#load "Abstractions.fs"
-#load "Broker.fs"
-#load "TradingPlatform.fs"
-
-open System;
+﻿open System;
 open System.Collections.Generic
 
 open InvestoBank.Execution.Broker
@@ -22,10 +15,16 @@ let order = { OpenOrderData.ClientId = ClientId "NH04058";
 let broker1 = new Broker1() :> InvestoBank.Execution.Abstractions.IBrokerFacade
 let broker2 = new Broker2() :> InvestoBank.Execution.Abstractions.IBrokerFacade
 
-let dict = new Dictionary<string, IBrokerFacade>(StringComparer.InvariantCultureIgnoreCase)
-[ "BROKER1", broker1; "BROKER2", broker2] |> Seq.iter( fun item -> dict.Add item)
+let dict = new Dictionary<string, IBrokerFacade>(StringComparer.InvariantCultureIgnoreCase);
+["BROKER1", broker1;  "BROKER2", broker2] |> Seq.iter( fun item -> dict.Add item)
 
 let service = new InvestoBank.Execution.TradingPlatform.TradingService(dict) :> ITradeService
 
-let confirmation = service.ReceivedClientOrder("clientA", 100us, BUY)
-printfn "%A" confirmation
+
+
+[<EntryPoint>]
+let main argv = 
+    let confirmation = service.ReceivedClientOrder("clientA", 100us, BUY)
+    printfn "%A" confirmation
+    0 // return an integer exit code
+
